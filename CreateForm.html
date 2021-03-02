@@ -14,30 +14,30 @@
             <div class="field">
                 <label class="label">Name</label>
                 <div class="control">
-                    <input class="input" type="text" name="name" required>
+                    <input class="input" type="text" v-model="name" required>
                 </div>
             </div>
             <div class="field">
                 <label class="label">Teacher/Student in Charge</label>
                 <div class="control">
-                    <input class="input" type="text" name="incharge" required>
+                    <input class="input" type="text" v-model="incharge" required>
                 </div>
             </div>
 
             <div class="field">
                 <b-field label="Room to be reserved">
-                    <b-select placeholder="Select a room">
+                    <b-select id="selectedRoom" :v-model="selectRoom" placeholder="Select a room" @input="upDateRoom">
                         <option v-for="equipment in equipments" :value="equipment.Room">{{equipment.Room}}</option>
                     </b-select>
                 </b-field>
             </div>
 
-            
+
 
             <div class="field">
                 <label class="label">Purpose</label>
                 <div class="control">
-                    <textarea class="textarea" placeholder="Textarea" rows="5" name="detail" required></textarea>
+                    <textarea class="textarea" placeholder="Textarea" rows="5" v-model="detail" required></textarea>
                 </div>
             </div>
         </div>
@@ -46,28 +46,28 @@
                 <div class="column">
                     <label class="label">Number of students involved</label>
                     <div class="control">
-                        <input class="input" type="number" name="participants" required>
+                        <input class="input" type="number" v-model="participants" required>
                     </div>
                 </div>
                 <div class="column">
                     <label class="label">Interest Club or Class</label>
                     <div class="control">
-                        <input class="input" type="text" name="associations" required>
+                        <input class="input" type="text" v-model="associations" required>
                     </div>
                 </div>
             </div>
             <div class="columns">
                 <div class="column">
                     <b-field label="Start Date">
-                        <b-datepicker :locale="locale"
-                            placeholder="Click to select..." icon="calendar" trap-focus>
+                        <b-datepicker v-model="startDate" :locale="locale" placeholder="Click to select..."
+                            icon="calendar" trap-focus>
                         </b-datepicker>
                     </b-field>
                 </div>
                 <div class="column">
                     <b-field label="End Date">
-                        <b-datepicker  :locale="locale"
-                            placeholder="Click to select..." icon="calendar" trap-focus>
+                        <b-datepicker v-model="endDate" :locale="locale" placeholder="Click to select..."
+                            icon="calendar" trap-focus>
                         </b-datepicker>
                     </b-field>
                 </div>
@@ -75,14 +75,14 @@
             <div class="columns">
                 <div class="column">
                     <b-field label="Start time">
-                        <b-timepicker rounded placeholder="Click to select..." icon="clock"
+                        <b-timepicker rounded placeholder="Click to select..." icon="clock" v-model="startTime"
                             :enable-seconds="enableSeconds" :hour-format="hourFormat" :locale="locale">
                         </b-timepicker>
                     </b-field>
                 </div>
                 <div class="column">
                     <b-field label="End time">
-                        <b-timepicker rounded placeholder="Click to select..." icon="clock"
+                        <b-timepicker rounded placeholder="Click to select..." icon="clock" v-model="endTime"
                             :enable-seconds="enableSeconds" :hour-format="hourFormat" :locale="locale">
                         </b-timepicker>
                     </b-field>
@@ -100,7 +100,7 @@
 
 
             <b-field>
-                <b-select placeholder="Recurrent Type" name="rtype" :disabled="!isRecurrent">
+                <b-select placeholder="Recurrent Type" v-model="rtype" :disabled="!isRecurrent">
                     <option value="daily">Daily</option>
                     <option value="weekly">Weekly</option>
                     <option value="monthly">Monthly</option>
@@ -108,7 +108,7 @@
             </b-field>
 
 
-            <div class="columns">
+            <!-- <div class="columns">
                 <div class="column">
                     <label class="label">Long Table</label>
                     <div class="control">
@@ -121,7 +121,7 @@
                         <input class="input" type="number" name="chairs" min=0 required>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <!-- <div class="columns">
                 <div class="column">
                     <div class="control">
@@ -161,13 +161,16 @@
                     </div>
                 </div>
             </div> -->
-            <div class="field">
-                <label class="label">Special Arrangement Layout Plan</label>
-                <div class="control">
-                    <input class="input" type="file" name="arrangement" accept="image/x-png,image/gif,image/jpeg"
-                        required>
-                </div>
-            </div>
+            <b-field label="Special Arrangement Layout ">
+                <b-field class="file is-primary" :class="{'has-name': !!file}">
+                  <b-upload v-model="file" class="file-label" rounded>
+                    <span class="file-cta">
+                      <b-icon icon="upload"></b-icon>
+                      <span class="file-label">{{ file.name || "Click to upload"}}</span>
+                    </span>
+                  </b-upload>
+                </b-field>
+              </b-field>
             <div class="field">
                 <div class="control">
                     <button class="button is-link is-waring" type="submit">Submit</button>
@@ -187,13 +190,71 @@
         new Vue({
             el: '#app',
             data: {
+                name: '',
+                incharge: '',
+                associations: '',
+                startTime: new Date(),
+                endTime: new Date(),
                 enableSeconds: false,
                 hourFormat: "24",
                 locale: "hk",
                 radio: 'oneTime',
+                startDate: new Date(),
+                endDate: new Date(),
+                file: {},
+                participants: 0,
+                detail: '',
+                rtype: '',
+                selectRoom:'',
+                room104: [],
+                room105: [],
+                room106: [],
+                room107: [],
+                room111: [],
+                room112: [],
+                room201: [],
+                room202: [],
+                room203: [],
+                room204: [],
+                room205: [],
+                room206: [],
+                room207: [],
+                room208: [],
+                room209: [],
+                room211: [],
+                room212: [],
+                room301: [],
+                room302: [],
+                room303: [],
+                room304: [],
+                room305: [],
+                room306: [],
+                room311: [],
+                room312: [],
+                room405: [],
+                room411: [],
+                room412: [],
+                room414: [],
+                room418: [],
+                room419: [],
+                room501: [],
+                room501A: [],
+                room504: [],
+                conferenceRoom1: [],
+                conferenceRoom6: [],
+                multiPurposeRoom: [],
+                coveredPlaygroundA: [],
+                coveredPlaygroundB: [],
+                coveredPlaygroundC: [],
+                hall: [],
+                openPlayground: [],
+                readingCorner: [],
+                roofPlayground: [],
+                studentActivityCentre: [],
+
                 equipments: [
                     {
-                        Room: "104",
+                        room: "104",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -210,7 +271,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "105",
+                        room: "105",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -227,7 +288,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "106",
+                        room: "106",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -244,7 +305,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "107",
+                        room: "107",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -261,7 +322,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "111",
+                        room: "111",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -278,7 +339,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "112",
+                        room: "112",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -295,7 +356,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "201",
+                        room: "201",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -312,7 +373,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "202",
+                        room: "202",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -329,7 +390,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "203",
+                        room: "203",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -346,7 +407,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "204",
+                        room: "204",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -363,7 +424,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "205",
+                        room: "205",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -380,7 +441,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "206",
+                        room: "206",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -397,7 +458,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "207",
+                        room: "207",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -414,7 +475,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "208",
+                        room: "208",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -431,7 +492,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "209",
+                        room: "209",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -448,7 +509,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "211",
+                        room: "211",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -465,7 +526,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "212",
+                        room: "212",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -482,7 +543,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "301",
+                        room: "301",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -499,7 +560,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "302",
+                        room: "302",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -516,7 +577,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "303",
+                        room: "303",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -533,7 +594,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "304",
+                        room: "304",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -550,7 +611,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "305",
+                        room: "305",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -567,7 +628,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "306",
+                        room: "306",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -584,7 +645,7 @@
                         cdplayer: false
                     },
                     {
-                        Room: "311",
+                        room: "311",
                         visualizer: true,
                         longTable: true,
                         chair: true,
@@ -960,13 +1021,149 @@
                 ]
             },
 
+            methods: {
+                upDateRoom() {
+                    var select_room = document.getElementById('selectedRoom')
+
+                }
+            },
+
+            mounted() {
+                this.room104 = this.equipments.filter(function (p) {
+                    return p.room == "104";
+                });
+                this.room105 = this.equipments.filter(function (p) {
+                    return p.room == "105";
+                });
+                this.room106 = this.equipments.filter(function (p) {
+                    return p.room == "106";
+                });
+                this.room107 = this.equipments.filter(function (p) {
+                    return p.room == "107";
+                });
+                this.room111 = this.equipments.filter(function (p) {
+                    return p.room == "111";
+                });
+                this.room112 = this.equipments.filter(function (p) {
+                    return p.room == "112";
+                });
+                this.room201 = this.equipments.filter(function (p) {
+                    return p.room == "201";
+                });
+                this.room202 = this.equipments.filter(function (p) {
+                    return p.room == "202";
+                });
+                this.room203 = this.equipments.filter(function (p) {
+                    return p.room == "204";
+                });
+                this.room205 = this.equipments.filter(function (p) {
+                    return p.room == "205";
+                });
+                this.room206 = this.equipments.filter(function (p) {
+                    return p.room == "206";
+                });
+                this.room207 = this.equipments.filter(function (p) {
+                    return p.room == "207";
+                });
+                this.room208 = this.equipments.filter(function (p) {
+                    return p.room == "208";
+                });
+                this.room209 = this.equipments.filter(function (p) {
+                    return p.room == "209";
+                });
+                this.room211 = this.equipments.filter(function (p) {
+                    return p.room == "211";
+                });
+                this.room212 = this.equipments.filter(function (p) {
+                    return p.room == "212";
+                });
+                this.room301 = this.equipments.filter(function (p) {
+                    return p.room == "301";
+                });
+                this.room302 = this.equipments.filter(function (p) {
+                    return p.room == "302";
+                });
+                this.room303 = this.equipments.filter(function (p) {
+                    return p.room == "303";
+                });
+                this.room304 = this.equipments.filter(function (p) {
+                    return p.room == "304";
+                });
+                this.room305 = this.equipments.filter(function (p) {
+                    return p.room == "305";
+                });
+                this.room306 = this.equipments.filter(function (p) {
+                    return p.room == "306";
+                });
+                this.room311 = this.equipments.filter(function (p) {
+                    return p.room == "311";
+                });
+                this.room312 = this.equipments.filter(function (p) {
+                    return p.room == "312";
+                });
+                this.room405 = this.equipments.filter(function (p) {
+                    return p.room == "405";
+                });
+                this.room411 = this.equipments.filter(function (p) {
+                    return p.room == "412";
+                });
+                this.room414 = this.equipments.filter(function (p) {
+                    return p.room == "414";
+                });
+                this.room418 = this.equipments.filter(function (p) {
+                    return p.room == "419";
+                });
+                this.room419 = this.equipments.filter(function (p) {
+                    return p.room == "419";
+                });
+                this.room501 = this.equipments.filter(function (p) {
+                    return p.room == "501";
+                });
+                this.room501A = this.equipments.filter(function (p) {
+                    return p.room == "501A";
+                });
+                this.conferenceRoom1 = this.equipments.filter(function (p) {
+                    return p.room == "1/F Conference Room";
+                });
+                this.conferenceRoom6 = this.equipments.filter(function (p) {
+                    return p.room == "6/F Conference Room";
+                });
+                this.multiPurposeRoom = this.equipments.filter(function (p) {
+                    return p.room == "Multi-purpose room";
+                });
+                this.coveredPlaygroundA = this.equipments.filter(function (p) {
+                    return p.room == "Covered Playground A (Entrance)";
+                });
+                this.coveredPlaygroundB = this.equipments.filter(function (p) {
+                    return p.room == "Covered Playground B (w/mirror)";
+                });
+                this.coveredPlaygroundC = this.equipments.filter(function (p) {
+                    return p.room == "Covered Playground C (New Annex)";
+                });
+                this.hall = this.equipments.filter(function (p) {
+                    return p.room == "Hall";
+                });
+                this.openPlayground = this.equipments.filter(function (p) {
+                    return p.room == "Open Playground";
+                });
+                this.readingCorner = this.equipments.filter(function (p) {
+                    return p.room == "Reading Corner";
+                });
+                this.roofPlayground = this.equipments.filter(function (p) {
+                    return p.room == "Roof Playground (Annex R/F)";
+                });
+                this.studentActivityCentre = this.equipments.filter(function (p) {
+                    return p.room == "Student Activity Centre (Annex R/F)";
+                });
+            },
 
 
             computed: {
                 isRecurrent() {
                     return this.radio === "recurrent";
                 }
-            }
+            },
+
         })
     </script>
 </body>
