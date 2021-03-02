@@ -59,14 +59,14 @@
             <div class="columns">
                 <div class="column">
                     <b-field label="Start Date">
-                        <b-datepicker v-model="selected" :locale="locale"
+                        <b-datepicker :locale="locale"
                             placeholder="Click to select..." icon="calendar" trap-focus>
                         </b-datepicker>
                     </b-field>
                 </div>
                 <div class="column">
                     <b-field label="End Date">
-                        <b-datepicker v-model="selected" :locale="locale"
+                        <b-datepicker  :locale="locale"
                             placeholder="Click to select..." icon="calendar" trap-focus>
                         </b-datepicker>
                     </b-field>
@@ -188,9 +188,8 @@
             el: '#app',
             data: {
                 enableSeconds: false,
-                hourFormat: "10:10:2012",
+                hourFormat: "24",
                 locale: "hk",
-                selected:false,
                 radio: 'oneTime',
                 equipments: [
                     {
