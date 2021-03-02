@@ -26,8 +26,8 @@
 
             <div class="field">
                 <b-field label="Room to be reserved">
-                    <b-select id="selectedRoom" :v-model="selectRoom" placeholder="Select a room" @input="upDateRoom">
-                        <option v-for="equipment in equipments" :value="equipment.Room">{{equipment.Room}}</option>
+                    <b-select id="selectedRoom" v-model="selectRoom" placeholder="Select a room" @input="upDateRoom">
+                        <option v-for="equipment in equipments" :value="equipment.room">{{equipment.room}}</option>
                     </b-select>
                 </b-field>
             </div>
@@ -106,6 +106,10 @@
                     <option value="monthly">Monthly</option>
                 </b-select>
             </b-field>
+
+            <div class="block">
+                <b-checkbox 
+            </div>
 
 
             <!-- <div class="columns">
@@ -1024,7 +1028,8 @@
             methods: {
                 upDateRoom() {
                     var select_room = document.getElementById('selectedRoom')
-
+                    // console.log(select_room.value)
+                    return this.selectRoom==select_room.value;
                 }
             },
 
