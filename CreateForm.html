@@ -133,7 +133,11 @@
                     computer
                 </b-checkbox>
                 <b-checkbox v-model="equipGroup"
-                    native-value="cd_Projector" :disabled="selectedEquipmentList.cdProjector== false">
+                    native-value="LCDProjectorScreen" :disabled="selectedEquipmentList.LCDProjectorScreen== false">
+                    LCD Projector Screen
+                </b-checkbox>
+                <b-checkbox v-model="equipGroup"
+                    native-value="cdProjector" :disabled="selectedEquipmentList.cdProjector== false">
                     CD Projector
                 </b-checkbox>
                 <b-checkbox v-model="equipGroup"
@@ -141,19 +145,19 @@
                     Sound System
                 </b-checkbox>
                 <b-checkbox v-model="equipGroup"
-                    native-value="noteBook" :disabled="selectedEquipmentList.notebookComputer == false">
+                    native-value="notebookComputer" :disabled="selectedEquipmentList.notebookComputer == false">
                     Notebook Computer
                 </b-checkbox>
                 <b-checkbox v-model="equipGroup"
-                    native-value="wirelessMic" :disabled="selectedEquipmentList.wirelessMicrophone == false">
+                    native-value="wirelessMicrophone" :disabled="selectedEquipmentList.wirelessMicrophone == false">
                     Wireless Microphone
                 </b-checkbox>
                 <b-checkbox v-model="equipGroup"
-                    native-value="photo_taking" :disabled="selectedEquipmentList.photoTaking == false">
+                    native-value="photoTaking" :disabled="selectedEquipmentList.photoTaking == false">
                     Photo Taking
                 </b-checkbox>
                 <b-checkbox v-model="equipGroup"
-                    native-value="piano_mic" :disabled="selectedEquipmentList.pianoMic == false">
+                    native-value="pianoMic" :disabled="selectedEquipmentList.pianoMic == false">
                     Piano Mic
                 </b-checkbox>
                 <b-checkbox v-model="equipGroup"
@@ -165,11 +169,11 @@
                     Bell
                 </b-checkbox>
                 <b-checkbox v-model="equipGroup"
-                    native-value="mic_stand" :disabled="selectedEquipmentList.microphoneStand== false">
+                    native-value="microphoneStand" :disabled="selectedEquipmentList.microphoneStand== false">
                     Microphone Stand
                 </b-checkbox>
                 <b-checkbox v-model="equipGroup"
-                    native-value="cd_player" :disabled="selectedEquipmentList.cdPlayer= false">
+                    native-value="cdPlayer" :disabled="selectedEquipmentList.cdPlayer= false">
                     CD Player
                 </b-checkbox>
             </div>
@@ -1042,7 +1046,6 @@
                 upDateRoom() {
                     
                     var select_room = this.selectRoom
-                    // alert(select_room)
                     
                     this.selectedEquipmentList = this.equipments.filter( function (room) {
 
@@ -1050,7 +1053,6 @@
 
                     })[0] || {};
 
-                    // alert(JSON.stringify(this.selectedEquipmentList))
                 }
             },
 
