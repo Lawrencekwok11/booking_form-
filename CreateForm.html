@@ -46,7 +46,7 @@
                 <div class="column">
                     <label class="label">Number of students involved</label>
                     <div class="control">
-                        <input class="input" type="number" v-model="participants" required>
+                        <input class="input" type="number" min="0" v-model="participants" required>
                     </div>
                 </div>
                 <div class="column">
@@ -107,72 +107,83 @@
                 </b-select>
             </b-field>
 
-           
 
-
-            <!-- <div class="columns">
+            <div class="columns">
                 <div class="column">
                     <label class="label">Long Table</label>
                     <div class="control">
-                        <input class="input" type="number" name="table" min=0 required>
+                        <input class="input" type="number" v-model="table" :disabled="selectedEquipmentList.longTable == false"  min=0 required>
                     </div>
                 </div>
                 <div class="column">
                     <label class="label">Chairs</label>
                     <div class="control">
-                        <input class="input" type="number" name="chairs" min=0 required>
+                        <input class="input" type="number" v-model="chair" min=0  :disabled="selectedEquipmentList.chair == false" required>
                     </div>
                 </div>
-            </div> -->
-            <!-- <div class="columns">
-                <div class="column">
-                    <div class="control">
-                        <label class="label">Equipment</label>
-                        <label class="checkbox">
-                            <input type="checkbox" name="equipment">
-                            Notebook Computer
-                        </label>
-                        <label class="checkbox">
-                            <input type="checkbox" name="equipment">
-                            LCD Projector & Screen
-                        </label>
-                        <label class="checkbox">
-                            <input type="checkbox" name="equipment">
-                            Internet Connection
-                        </label>
-                        <label class="checkbox">
-                            <input type="checkbox" name="equipment">
-                            Visualizer
-                        </label>
-                        <label class="checkbox">
-                            <input type="checkbox" name="equipment">
-                            Portable Amplifer
-                        </label>
-                        <label class="checkbox">
-                            <input type="checkbox" name="equipment">
-                            VCD/DVD player
-                        </label>
-                        <label class="checkbox">
-                            <input type="checkbox" name="equipment">
-                            CD player
-                        </label>
-                        <label class="checkbox">
-                            <input type="checkbox" name="equipment">
-                            Rubbish bin
-                        </label>
-                    </div>
-                </div>
-            </div> -->
+            </div>
+
+            <div class="block">
+                <b-checkbox v-model="equipGroup"
+                    native-value="visualizer" :disabled="selectedEquipmentList.visualizer == false">
+                    Visualizer
+                </b-checkbox>
+                <b-checkbox v-model="equipGroup"
+                    native-value="computer" :disabled="selectedEquipmentList.computer== false">
+                    computer
+                </b-checkbox>
+                <b-checkbox v-model="equipGroup"
+                    native-value="cd_Projector" :disabled="selectedEquipmentList.cdProjector== false">
+                    CD Projector
+                </b-checkbox>
+                <b-checkbox v-model="equipGroup"
+                    native-value="soundSystem" :disabled="selectedEquipmentList.soundSystem== false">
+                    Sound System
+                </b-checkbox>
+                <b-checkbox v-model="equipGroup"
+                    native-value="noteBook" :disabled="selectedEquipmentList.notebookComputer == false">
+                    Notebook Computer
+                </b-checkbox>
+                <b-checkbox v-model="equipGroup"
+                    native-value="wirelessMic" :disabled="selectedEquipmentList.wirelessMicrophone == false">
+                    Wireless Microphone
+                </b-checkbox>
+                <b-checkbox v-model="equipGroup"
+                    native-value="photo_taking" :disabled="selectedEquipmentList.photoTaking == false">
+                    Photo Taking
+                </b-checkbox>
+                <b-checkbox v-model="equipGroup"
+                    native-value="piano_mic" :disabled="selectedEquipmentList.pianoMic == false">
+                    Piano Mic
+                </b-checkbox>
+                <b-checkbox v-model="equipGroup"
+                    native-value="podium" :disabled="selectedEquipmentList.podium == false">
+                    Podium
+                </b-checkbox>
+                <b-checkbox v-model="equipGroup"
+                    native-value="bell" :disabled="selectedEquipmentList.bell == false">
+                    Bell
+                </b-checkbox>
+                <b-checkbox v-model="equipGroup"
+                    native-value="mic_stand" :disabled="selectedEquipmentList.microphoneStand== false">
+                    Microphone Stand
+                </b-checkbox>
+                <b-checkbox v-model="equipGroup"
+                    native-value="cd_player" :disabled="selectedEquipmentList.cdPlayer= false">
+                    CD Player
+                </b-checkbox>
+            </div>
+           
             <b-field label="Special Arrangement Layout ">
                 <b-field class="file is-primary" :class="{'has-name': !!file}">
-                  <b-upload v-model="file" class="file-label" rounded>
-                    <span class="file-cta">
-                      <b-icon icon="upload"></b-icon>
-                      <span class="file-label">{{ file.name || "Click to upload"}}</span>
-                    </span>
-                  </b-upload>
+                    <b-upload v-model="file" class="file-label" rounded>
+                        <span class="file-cta">
+                            <b-icon icon="upload"></b-icon>
+                            <span class="file-label">{{ file.name || "Click to upload"}}</span>
+                        </span>
+                    </b-upload>
                 </b-field>
-              </b-field>
+            </b-field>
             <div class="field">
                 <div class="control">
                     <button class="button is-link is-waring" type="submit">Submit</button>
@@ -195,8 +206,8 @@
                 name: '',
                 incharge: '',
                 associations: '',
-                startTime: new Date(),
-                endTime: new Date(),
+                startTime: undefined,
+                endTime: undefined,
                 enableSeconds: false,
                 hourFormat: "24",
                 locale: "hk",
@@ -207,7 +218,10 @@
                 participants: 0,
                 detail: '',
                 rtype: '',
-                selectRoom:'',
+                selectRoom: '',
+                table: 0,
+                chair: 0,
+                equipGroup: [],
                 room104: [],
                 room105: [],
                 room106: [],
@@ -242,6 +256,7 @@
                 room501: [],
                 room501A: [],
                 room504: [],
+                selectedEquipmentList: [],
                 conferenceRoom1: [],
                 conferenceRoom6: [],
                 multiPurposeRoom: [],
@@ -852,10 +867,10 @@
                     },
                     {
                         room: "6/F Conference Room",
-                        visualizer: "TRUE",
-                        longTable: "FALSE",
-                        chair: "FALSE",
-                        computer: "FALSE",
+                        visualizer: true,
+                        longTable: false,
+                        chair: false,
+                        computer: false,
                         LCDProjectorScreen: true,
                         soundSystem: true,
                         notebookComputer: true,
@@ -1025,9 +1040,17 @@
 
             methods: {
                 upDateRoom() {
-                    var select_room = document.getElementById('selectedRoom')
-                    console.log(select_room.value)
-                    return this.selectRoom==select_room.value;
+                    
+                    var select_room = this.selectRoom
+                    alert(select_room)
+                    
+                    this.selectedEquipmentList = this.equipments.filter( function (room) {
+
+                        return room.room == select_room
+
+                    })[0] || {};
+
+                    alert(JSON.stringify(this.selectedEquipmentList))
                 }
             },
 
